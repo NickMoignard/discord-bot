@@ -28,7 +28,7 @@ class BadWordWatcher extends BaseWatcher {
                 );
 
                 const warningMessage = await message.reply(
-                    `Please read the ${rulesChannel} channel and don't be vulgar.`,
+                    `Please use less inflamatory language here. See ${rulesChannel} for more info`,
                 );
 
                 this.addWarningToUser(message);

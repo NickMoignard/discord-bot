@@ -24,8 +24,6 @@ class WorkingCommand extends BaseCommand {
         if (this.hasBypassRole(message)) {
             await message.reply('Yes I\'m "working"!');
         }
-
-        message.delete();
     }
 }
 
