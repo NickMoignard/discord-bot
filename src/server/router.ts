@@ -21,7 +21,7 @@ router.get('/stats', async (ctx: Context) => {
 
     ctx.body = {
         uptime: ctx.bot.client.uptime,
-        members: guild.memberCount,
+        members: guild.members,
         partnered: guild.partnered,
         premiumTier: guild.premiumTier,
         premiumSubscriptionCount: guild.premiumSubscriptionCount,
@@ -61,8 +61,10 @@ router.post('/channel/:channel/send', async (ctx: Context) => {
 
     if (message) {
         await channel.send(message, { embed });
-    } else {
+    } else if (embed) {
         await channel.send({ embed });
+    } else {
+        await channel.send('send message route used but no message sent');
     }
 
     ctx.status = 201;
@@ -241,6 +243,66 @@ router.get('/db/users', async (ctx: Context) => {
 
 router.get('/db/messages', async (ctx: Context) => {
     ctx.body = await database.databases.messages.find({}).sort({ updatedAt: -1 }).limit(100);
+});
+
+router.post('/new_client', async (ctx: Context) => {
+    const guild = await getGuild(ctx);
+    var channel;
+    if (!guild) {
+        ctx.throw(500, 'failed to get the guild');
+    }
+
+    guild.channels
+        .create(`${ctx.request.body.client_name}`, { reason: 'New Client', type: 'category' })
+        .then((category) => {
+            guild.channels
+                .create('info', {
+                    type: 'text',
+                })
+                .then((channel) => {
+                    channel.setParent(category.id);
+                })
+                .catch(console.error);
+
+            guild.channels
+                .create('general', {
+                    type: 'text',
+                })
+                .then((channel) => {
+                    channel.setParent(category.id);
+                })
+                .catch(console.error);
+
+            guild.channels
+                .create('design', {
+                    type: 'text',
+                })
+                .then((channel) => {
+                    channel.setParent(category.id);
+                })
+                .catch(console.error);
+
+            guild.channels
+                .create('code', {
+                    type: 'text',
+                })
+                .then((channel) => {
+                    channel.setParent(category.id);
+                })
+                .catch(console.error);
+
+            guild.channels
+                .create('production-and-logistics', {
+                    type: 'text',
+                })
+                .then((channel) => {
+                    channel.setParent(category.id);
+                })
+                .catch(console.error);
+        })
+        .catch(console.error);
+
+    debugger;
 });
 
 export { router };
