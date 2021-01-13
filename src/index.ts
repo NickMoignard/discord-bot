@@ -1,7 +1,7 @@
 import config from 'config';
 import * as Sentry from '@sentry/node';
-
 import Bot from './Bot';
+require('dotenv').config();
 
 import logger from './utils/logger';
 import { isDevelopmentEnvironment, isProductionEnvironment } from './utils/env';

@@ -46,6 +46,7 @@
     "config": "^3.3.1",
     "date-fns": "^2.15.0",
     "discord.js": "^12.2.0",
+    "dotenv": "8.2.0",
     "got": "^11.5.1",
     "koa": "^2.13.0",
     "koa-bodyparser": "^4.3.0",
@@ -57,7 +58,6 @@
     "winston-logzio": "^5.1.2"
   },
   "devDependencies": {
-    "@commitlint/cli": "^9.1.1",
     "@commitlint/config-conventional": "^9.1.1",
     "@types/config": "0.0.36",
     "@types/koa": "^2.11.3",
