@@ -1,9 +1,10 @@
 terraform {
   backend "remote" {
-    organization = "atlauncher"
+    hostname = "app.terraform.io"
+    organization = "rvlt"
 
     workspaces {
-      name = "docker-bot"
+      name = "discord-bot"
     }
   }
 }

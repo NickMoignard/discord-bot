@@ -79,7 +79,7 @@ resource "digitalocean_droplet" "discord-bot" {
     ]
 
     connection {
-      host  = "${digitalocean_droplet.discord-bot.ipv4_address}"
+      host  = digitalocean_droplet.discord-bot.ipv4_address
       user  = "root"
       agent = true
     }
