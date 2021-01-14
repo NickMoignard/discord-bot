@@ -85,10 +85,11 @@ resource "digitalocean_droplet" "discord-bot" {
       host  = digitalocean_droplet.discord-bot.ipv4_address
       user  = "root"
       type = "ssh"
-      agent = true
+      agent = false
       password = ""
       timeout = "2m"
       private_key = var.ssh_private_key
+      host_key = var.ssh_public_key
     }
   }
 }
