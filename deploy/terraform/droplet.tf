@@ -80,7 +80,6 @@ resource "digitalocean_droplet" "discord-bot" {
     host  = digitalocean_droplet.discord-bot.ipv4_address
     user  = "root"
     type = "ssh"
-    agent = true
     private_key = base64encode(var.ssh_private_key)
   }
 
