@@ -67,7 +67,7 @@ that, you'll need to remove the `backend.tf` file before running the below comma
 Now you can deploy the droplet with:
 
 ```sh
-cd build/terraform
+cd deploy/terraform
 terraform init
 terraform plan -out tf.plan
 terraform apply tf.plan
