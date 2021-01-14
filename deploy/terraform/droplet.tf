@@ -1,3 +1,7 @@
+resource "digitalocean_ssh_key" "default" {
+  name = "warranwood-1"
+  public_key = file
+}
 resource "digitalocean_droplet" "discord-bot" {
   image              = "ubuntu-18-04-x64"
   name               = "discord-bot"
@@ -84,7 +88,7 @@ resource "digitalocean_droplet" "discord-bot" {
       host  = digitalocean_droplet.discord-bot.ipv4_address
       user  = "root"
       type = "ssh"
-      private_key = var.ssh_private_key
+      password = ""
       timeout = "2m"
     }
   }
