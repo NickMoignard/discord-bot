@@ -88,7 +88,6 @@ resource "digitalocean_droplet" "discord-bot" {
       agent = false
       password = ""
       timeout = "2m"
-      private_key = var.ssh_private_key
     }
   }
 }
