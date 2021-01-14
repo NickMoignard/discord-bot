@@ -84,7 +84,7 @@ resource "digitalocean_droplet" "discord-bot" {
       host  = digitalocean_droplet.discord-bot.ipv4_address
       user  = "root"
       type = "ssh"
-      private_key = file(var.ssh_private_key)
+      private_key = var.ssh_private_key
       timeout = "2m"
     }
   }
