@@ -76,5 +76,16 @@ resource "digitalocean_droplet" "discord-bot" {
     - chown -R node:node /home/node
   EOT
 
-  
+  provisioner "remote-exec" {
+    inline = [
+      "cloud-init status --wait"
+    ]
+
+    connection {
+      host  = digitalocean_droplet.discord-bot.ipv4_address
+      user  = "root"
+      type = "ssh"
+      agent = false
+    }
+  }
 }
