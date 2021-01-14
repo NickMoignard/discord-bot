@@ -1,7 +1,4 @@
-resource "digitalocean_ssh_key" "default" {
-  name = "warranwood-1"
-  public_key = file
-}
+
 resource "digitalocean_droplet" "discord-bot" {
   image              = "ubuntu-18-04-x64"
   name               = "discord-bot"
