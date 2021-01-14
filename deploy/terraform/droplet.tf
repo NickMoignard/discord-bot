@@ -5,7 +5,9 @@ resource "digitalocean_droplet" "discord-bot" {
   size               = "s-1vcpu-1gb"
   private_networking = false
   monitoring         = true
-  ssh_keys           = [var.ssh_fingerprint]
+  ssh_keys           = [
+    data.digitalocean_ssh_key.terraform.id
+  ]
   user_data          = <<-EOT
     #cloud-config
     # Set up non-root sudo account.
@@ -81,7 +83,9 @@ resource "digitalocean_droplet" "discord-bot" {
     connection {
       host  = digitalocean_droplet.discord-bot.ipv4_address
       user  = "root"
-      agent = false
+      type = "ssh"
+      private_key = file(var.ssh_private_key)
+      timeout = "2m"
     }
   }
 }
