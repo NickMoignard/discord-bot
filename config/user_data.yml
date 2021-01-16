@@ -1,0 +1,24 @@
+#cloud-config
+    # Set up non-root sudo account.
+    users:
+    - name: node
+      ssh-authorized-keys:
+        - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDB8r/lFYIW3dZeRK8+RWctdHEikNXGeMqsQggnjgJSVWrBXuv6pTTUq7pXxXERQrZNLQUWkN6W/bJfpRV9EO2EX1xYiFgBtmCPFpm5n/yYfmpqQ5HPYqY/BkCU1LkgY35Ge8+glYuIdnQQ0wV1IojRxlHIj3W3KFPOwcDJ5qZamAsUS/uT8VWkjS80AxjXFZyJwhosDGFJtSDNyhpFWpb5RVa5njdKJOcv1DABzN6Dwi1IOXCIyKbtn+R52/vDtNGRvPw8nvQVAdxqHSg/3ltCrnGBLwvj1uoGBelE6aOerNztVO9Yz35bBhw7Gk1ywKIs+UpXVdRa3KMYPnQqKy0npMDpMpXY0UrNBv5F/51JzDJOij8pXKvpnLlSoUKYFZsIV4RkJR0AMg1H7shCWHW9CHtkdDMLs6TWHDRLGPOTw5eWa6cI8SUjxqpZO2d/IPBKB3B+9kQTYrQ9APmijgFZFGJUwMx2IjHpxwMN+NIHrZZlf6T/qbXzomyIi6ZbS6c= nlm@DESKTOP-F5VJOC2
+      groups: sudo
+      shell: /bin/bash
+      sudo: ALL=(ALL) NOPASSWD:ALL
+
+    # apt update and upgrade
+    package_update: true
+    package_upgrade: true
+
+    # Install the following packages
+    packages:
+    - git
+    - gcc
+    - g++
+    - curl
+    - dirmngr
+    - apt-transport-https
+    - lsb-release
+    - ca-certificates

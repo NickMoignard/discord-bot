@@ -1,23 +1,22 @@
 {
-  "name": "@atlauncher/discord-bot",
+  "name": "@NickMoignard/discord-bot",
   "version": "0.1.0",
-  "description": "This is the code for our Discord bot which runs on our official Discord server at https://atl.pw/discord",
+  "description": "This is the code for the Revolt internal Discord Bot",
   "main": "dist",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ATLauncher/Discord-Bot.git"
+    "url": "git+https://github.com/NickMoignard/Discord-Bot.git"
   },
   "keywords": [
     "discord",
-    "atlauncher",
     "bot"
   ],
-  "author": "Ryan Dowling <ryan.dowling@atlauncher.com>",
+  "author": "Nick Moignard <nicklmoignard@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ATLauncher/Discord-Bot/issues"
+    "url": "https://github.com/NickMoignard/Discord-Bot/issues"
   },
-  "homepage": "https://github.com/ATLauncher/Discord-Bot#readme",
+  "homepage": "https://github.com/NickMoignard/Discord-Bot#readme",
   "scripts": {
     "build": "tsc",
     "clean": "rimraf dist",
