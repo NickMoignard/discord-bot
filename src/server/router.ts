@@ -305,4 +305,27 @@ router.post('/new_client', async (ctx: Context) => {
     debugger;
 });
 
+router.post('/new_campaign', async (ctx: Context) => {
+    const guild = await getGuild(ctx);
+    var categoryId = ctx.request.body.client_category;
+
+    if (!guild) {
+        ctx.throw(500, 'failed to get the guild');
+    }
+
+    // Permissions
+    // Airtable
+    // Embed
+
+    guild.channels
+        .create(`${ctx.request.body.campaign_name}`, {
+            type: 'text',
+            reason: 'New Campaign',
+        })
+        .then((channel) => {
+            channel.setParent(categoryId);
+        })
+        .catch(console.error);
+});
+
 export { router };
