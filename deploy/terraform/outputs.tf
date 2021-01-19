@@ -1,3 +1,3 @@
 output "ip" {
-  value = digitalocean_droplet.discord-bot.ipv4_address
+  value = digitalocean_droplet.bot.ipv4_address
 }
