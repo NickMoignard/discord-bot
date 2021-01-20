@@ -1,4 +1,4 @@
-import type { Guild, GuildMember, GuildChannel } from 'discord.js';
+import type { Guild, GuildMember, GuildChannel, Permissions, Channel } from 'discord.js';
 
 import type { Context } from '.';
 
@@ -35,3 +35,20 @@ export const getMember = (guild: Guild, user: string): GuildMember | undefined =
 export const getChannel = (guild: Guild, channel: string): GuildChannel | undefined => {
     return guild.channels.cache.find(({ id }) => id === channel);
 };
+
+// export const compute_base_permissions = (member: GuildMember, guild: Guild): Permissions => {
+//     return new Permissions;
+// };
+
+// export const compute_overwrites = (
+//     base_permissions: Permissions,
+//     member: GuildMember,
+//     channel: GuildChannel,
+// ): Permissions | undefined => {
+//     return;
+// };
+
+// export const compute_permissions = (member: GuildMember, channel: GuildChannel): Permissions | undefined => {
+//     var base_permissions = compute_base_permissions(member, channel.guild);
+//     return compute_overwrites(base_permissions, member, channel);
+// };

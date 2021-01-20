@@ -1,7 +1,9 @@
 import Router from '@koa/router';
 import type { TextChannel } from 'discord.js';
+import * as Discord from 'discord.js';
 
 import type { Context, ServerState, ServerContext } from './';
+import config from 'config';
 
 import * as database from '../utils/db';
 import { getGuild, getMember, getChannel } from './utils';
@@ -244,13 +246,48 @@ router.get('/db/users', async (ctx: Context) => {
 router.get('/db/messages', async (ctx: Context) => {
     ctx.body = await database.databases.messages.find({}).sort({ updatedAt: -1 }).limit(100);
 });
-
-router.post('/new_client', async (ctx: Context) => {
+router.delete('/client/:category_channel_id', async (ctx: Context) => {
     const guild = await getGuild(ctx);
-    var channel;
+
     if (!guild) {
         ctx.throw(500, 'failed to get the guild');
     }
+    var category = guild.channels.cache.get(ctx.params.category_channel_id) as Discord.CategoryChannel;
+
+    category.children.each((channel) => {
+        channel.delete();
+    });
+    category.delete();
+});
+
+router.post('/new_client', async (ctx: Context) => {
+    const guild = await getGuild(ctx);
+
+    if (!guild) {
+        ctx.throw(500, 'failed to get the guild');
+    }
+
+    var channel;
+    var clientPerms = { VIEW_CHANNEL: true };
+
+    var internalChannel = guild.channels.cache.get(config.get<string>('defaultInternal')) as Discord.GuildChannel;
+    var infoChannel = guild.channels.cache.get(config.get<string>('defaultInfo')) as Discord.GuildChannel;
+
+    var infoPMPerms = infoChannel
+        .permissionsFor(config.get<string>('roles.pm'))
+        ?.serialize() as Discord.PermissionOverwriteOption;
+
+    var infoAdminPerms = infoChannel
+        .permissionsFor(config.get<string>('roles.admin'))
+        ?.serialize() as Discord.PermissionOverwriteOption;
+
+    var internalCreativePerms = internalChannel
+        .permissionsFor(config.get<string>('roles.creative'))
+        ?.serialize() as Discord.PermissionOverwriteOption;
+
+    var internalTeamPerms = internalChannel
+        .permissionsFor(config.get<string>('roles.team'))
+        ?.serialize() as Discord.PermissionOverwriteOption;
 
     guild.channels
         .create(`${ctx.request.body.client_name}`, { reason: 'New Client', type: 'category' })
@@ -260,6 +297,11 @@ router.post('/new_client', async (ctx: Context) => {
                     type: 'text',
                 })
                 .then((channel) => {
+                    debugger;
+                    channel.updateOverwrite(channel.guild.roles.everyone, { VIEW_CHANNEL: false });
+                    channel.updateOverwrite(config.get<string>('roles.pm'), infoPMPerms);
+                    channel.updateOverwrite(config.get<string>('roles.admin'), infoAdminPerms);
+                    channel.updateOverwrite(ctx.request.body.client_id, clientPerms);
                     channel.setParent(category.id);
                 })
                 .catch(console.error);
@@ -269,6 +311,7 @@ router.post('/new_client', async (ctx: Context) => {
                     type: 'text',
                 })
                 .then((channel) => {
+                    channel.updateOverwrite(channel.guild.roles.everyone, { VIEW_CHANNEL: true });
                     channel.setParent(category.id);
                 })
                 .catch(console.error);
@@ -278,6 +321,11 @@ router.post('/new_client', async (ctx: Context) => {
                     type: 'text',
                 })
                 .then((channel) => {
+                    channel.updateOverwrite(channel.guild.roles.everyone, { VIEW_CHANNEL: false });
+                    channel.updateOverwrite(config.get<string>('roles.creative'), internalCreativePerms);
+                    channel.updateOverwrite(config.get<string>('roles.pm'), infoPMPerms);
+                    channel.updateOverwrite(config.get<string>('roles.admin'), infoAdminPerms);
+                    channel.updateOverwrite(config.get<string>('roles.team'), internalTeamPerms);
                     channel.setParent(category.id);
                 })
                 .catch(console.error);
@@ -287,6 +335,11 @@ router.post('/new_client', async (ctx: Context) => {
                     type: 'text',
                 })
                 .then((channel) => {
+                    channel.updateOverwrite(channel.guild.roles.everyone, { VIEW_CHANNEL: false });
+                    channel.updateOverwrite(config.get<string>('roles.creative'), internalCreativePerms);
+                    channel.updateOverwrite(config.get<string>('roles.pm'), infoPMPerms);
+                    channel.updateOverwrite(config.get<string>('roles.admin'), infoAdminPerms);
+                    channel.updateOverwrite(config.get<string>('roles.team'), internalTeamPerms);
                     channel.setParent(category.id);
                 })
                 .catch(console.error);
@@ -296,13 +349,16 @@ router.post('/new_client', async (ctx: Context) => {
                     type: 'text',
                 })
                 .then((channel) => {
+                    channel.updateOverwrite(channel.guild.roles.everyone, { VIEW_CHANNEL: false });
+                    channel.updateOverwrite(config.get<string>('roles.creative'), internalCreativePerms);
+                    channel.updateOverwrite(config.get<string>('roles.pm'), infoPMPerms);
+                    channel.updateOverwrite(config.get<string>('roles.admin'), infoAdminPerms);
+                    channel.updateOverwrite(config.get<string>('roles.team'), internalTeamPerms);
                     channel.setParent(category.id);
                 })
                 .catch(console.error);
         })
         .catch(console.error);
-
-    debugger;
 });
 
 router.post('/new_campaign', async (ctx: Context) => {
