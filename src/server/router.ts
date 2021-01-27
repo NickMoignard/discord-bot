@@ -247,17 +247,22 @@ router.get('/db/messages', async (ctx: Context) => {
     ctx.body = await database.databases.messages.find({}).sort({ updatedAt: -1 }).limit(100);
 });
 router.delete('/client/:category_channel_id', async (ctx: Context) => {
-    const guild = await getGuild(ctx);
+    try {
+        const guild = await getGuild(ctx);
 
-    if (!guild) {
-        ctx.throw(500, 'failed to get the guild');
+        if (!guild) {
+            ctx.throw(500, 'failed to get the guild');
+        }
+        var category = guild.channels.cache.get(ctx.params.category_channel_id) as Discord.CategoryChannel;
+
+        category.children.each((channel) => {
+            channel.delete();
+        });
+        category.delete();
+        ctx.status = 204;
+    } catch (err) {
+        ctx.status = 500;
     }
-    var category = guild.channels.cache.get(ctx.params.category_channel_id) as Discord.CategoryChannel;
-
-    category.children.each((channel) => {
-        channel.delete();
-    });
-    category.delete();
 });
 
 router.post('/new_client', async (ctx: Context) => {
@@ -288,77 +293,82 @@ router.post('/new_client', async (ctx: Context) => {
     var internalTeamPerms = internalChannel
         .permissionsFor(config.get<string>('roles.team'))
         ?.serialize() as Discord.PermissionOverwriteOption;
+    try {
+        await guild.channels
+            .create(`${ctx.request.body.client_name}`, { reason: 'New Client', type: 'category' })
+            .then((category) => {
+                ctx.body = { category_id: `${category.id}` };
+                ctx.status = 200;
 
-    guild.channels
-        .create(`${ctx.request.body.client_name}`, { reason: 'New Client', type: 'category' })
-        .then((category) => {
-            guild.channels
-                .create('info', {
-                    type: 'text',
-                })
-                .then((channel) => {
-                    debugger;
-                    channel.updateOverwrite(channel.guild.roles.everyone, { VIEW_CHANNEL: false });
-                    channel.updateOverwrite(config.get<string>('roles.pm'), infoPMPerms);
-                    channel.updateOverwrite(config.get<string>('roles.admin'), infoAdminPerms);
-                    channel.updateOverwrite(ctx.request.body.client_id, clientPerms);
-                    channel.setParent(category.id);
-                })
-                .catch(console.error);
+                guild.channels
+                    .create('info', {
+                        type: 'text',
+                    })
+                    .then((channel) => {
+                        channel.updateOverwrite(channel.guild.roles.everyone, { VIEW_CHANNEL: false });
+                        channel.updateOverwrite(config.get<string>('roles.pm'), infoPMPerms);
+                        channel.updateOverwrite(config.get<string>('roles.admin'), infoAdminPerms);
+                        channel.updateOverwrite(ctx.request.body.client_id, clientPerms);
+                        channel.setParent(category.id);
+                    })
+                    .catch(console.error);
 
-            guild.channels
-                .create('general', {
-                    type: 'text',
-                })
-                .then((channel) => {
-                    channel.updateOverwrite(channel.guild.roles.everyone, { VIEW_CHANNEL: true });
-                    channel.setParent(category.id);
-                })
-                .catch(console.error);
+                guild.channels
+                    .create('general', {
+                        type: 'text',
+                    })
+                    .then((channel) => {
+                        channel.updateOverwrite(channel.guild.roles.everyone, { VIEW_CHANNEL: true });
+                        channel.setParent(category.id);
+                    })
+                    .catch(console.error);
 
-            guild.channels
-                .create('design', {
-                    type: 'text',
-                })
-                .then((channel) => {
-                    channel.updateOverwrite(channel.guild.roles.everyone, { VIEW_CHANNEL: false });
-                    channel.updateOverwrite(config.get<string>('roles.creative'), internalCreativePerms);
-                    channel.updateOverwrite(config.get<string>('roles.pm'), infoPMPerms);
-                    channel.updateOverwrite(config.get<string>('roles.admin'), infoAdminPerms);
-                    channel.updateOverwrite(config.get<string>('roles.team'), internalTeamPerms);
-                    channel.setParent(category.id);
-                })
-                .catch(console.error);
+                guild.channels
+                    .create('design', {
+                        type: 'text',
+                    })
+                    .then((channel) => {
+                        channel.updateOverwrite(channel.guild.roles.everyone, { VIEW_CHANNEL: false });
+                        channel.updateOverwrite(config.get<string>('roles.creative'), internalCreativePerms);
+                        channel.updateOverwrite(config.get<string>('roles.pm'), infoPMPerms);
+                        channel.updateOverwrite(config.get<string>('roles.admin'), infoAdminPerms);
+                        channel.updateOverwrite(config.get<string>('roles.team'), internalTeamPerms);
+                        channel.setParent(category.id);
+                    })
+                    .catch(console.error);
 
-            guild.channels
-                .create('code', {
-                    type: 'text',
-                })
-                .then((channel) => {
-                    channel.updateOverwrite(channel.guild.roles.everyone, { VIEW_CHANNEL: false });
-                    channel.updateOverwrite(config.get<string>('roles.creative'), internalCreativePerms);
-                    channel.updateOverwrite(config.get<string>('roles.pm'), infoPMPerms);
-                    channel.updateOverwrite(config.get<string>('roles.admin'), infoAdminPerms);
-                    channel.updateOverwrite(config.get<string>('roles.team'), internalTeamPerms);
-                    channel.setParent(category.id);
-                })
-                .catch(console.error);
+                guild.channels
+                    .create('code', {
+                        type: 'text',
+                    })
+                    .then((channel) => {
+                        channel.updateOverwrite(channel.guild.roles.everyone, { VIEW_CHANNEL: false });
+                        channel.updateOverwrite(config.get<string>('roles.creative'), internalCreativePerms);
+                        channel.updateOverwrite(config.get<string>('roles.pm'), infoPMPerms);
+                        channel.updateOverwrite(config.get<string>('roles.admin'), infoAdminPerms);
+                        channel.updateOverwrite(config.get<string>('roles.team'), internalTeamPerms);
+                        channel.setParent(category.id);
+                    })
+                    .catch(console.error);
 
-            guild.channels
-                .create('production-and-logistics', {
-                    type: 'text',
-                })
-                .then((channel) => {
-                    channel.updateOverwrite(channel.guild.roles.everyone, { VIEW_CHANNEL: false });
-                    channel.updateOverwrite(config.get<string>('roles.creative'), internalCreativePerms);
-                    channel.updateOverwrite(config.get<string>('roles.pm'), infoPMPerms);
-                    channel.updateOverwrite(config.get<string>('roles.admin'), infoAdminPerms);
-                    channel.updateOverwrite(config.get<string>('roles.team'), internalTeamPerms);
-                    channel.setParent(category.id);
-                })
-                .catch(console.error);
-        })
-        .catch(console.error);
+                guild.channels
+                    .create('production-and-logistics', {
+                        type: 'text',
+                    })
+                    .then((channel) => {
+                        channel.updateOverwrite(channel.guild.roles.everyone, { VIEW_CHANNEL: false });
+                        channel.updateOverwrite(config.get<string>('roles.creative'), internalCreativePerms);
+                        channel.updateOverwrite(config.get<string>('roles.pm'), infoPMPerms);
+                        channel.updateOverwrite(config.get<string>('roles.admin'), infoAdminPerms);
+                        channel.updateOverwrite(config.get<string>('roles.team'), internalTeamPerms);
+                        channel.setParent(category.id);
+                    })
+                    .catch(console.error);
+            })
+            .catch(console.error);
+    } catch (err) {
+        ctx.status = 500;
+    }
 });
 
 router.post('/new_campaign', async (ctx: Context) => {
