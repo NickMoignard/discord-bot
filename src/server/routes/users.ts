@@ -1,20 +1,16 @@
-import type { TextChannel } from 'discord.js';
-import * as Discord from 'discord.js';
-
 import type { Context, ServerState, ServerContext } from '..';
-import config from 'config';
 
 import * as database from '../../utils/db';
-import { getGuild, getMember, getChannel } from '../utils';
+import { getGuild, getMember } from '../utils';
 
 import Router from '@koa/router';
-const router = new Router<ServerState, ServerContext>({ prefix: '/user' });
+const userRouter = new Router<ServerState, ServerContext>({ prefix: '/user' });
 
-router.get('/', async (ctx, next) => {
+userRouter.get('/', async (ctx, next) => {
     ctx.status = 200;
 });
 
-router.get('/:user', async (ctx: Context) => {
+userRouter.get('/:user', async (ctx: Context) => {
     const guild = await getGuild(ctx);
 
     if (!guild) {
@@ -30,7 +26,7 @@ router.get('/:user', async (ctx: Context) => {
     ctx.body = member;
 });
 
-router.get('/:user/roles', async (ctx: Context) => {
+userRouter.get('/:user/roles', async (ctx: Context) => {
     const guild = await getGuild(ctx);
 
     if (!guild) {
@@ -46,7 +42,7 @@ router.get('/:user/roles', async (ctx: Context) => {
     ctx.body = member.roles.cache.toJSON();
 });
 
-router.post('/:user/roles', async (ctx: Context) => {
+userRouter.post('/:user/roles', async (ctx: Context) => {
     const guild = await getGuild(ctx);
 
     if (!guild) {
@@ -71,7 +67,7 @@ router.post('/:user/roles', async (ctx: Context) => {
     ctx.status = 201;
 });
 
-router.delete('/:user/roles/:role', async (ctx: Context) => {
+userRouter.delete('/:user/roles/:role', async (ctx: Context) => {
     const guild = await getGuild(ctx);
 
     if (!guild) {
@@ -94,7 +90,7 @@ router.delete('/:user/roles/:role', async (ctx: Context) => {
     ctx.status = 204;
 });
 
-router.get('/:user/messages', async (ctx: Context) => {
+userRouter.get('/:user/messages', async (ctx: Context) => {
     const guild = await getGuild(ctx);
 
     if (!guild) {
@@ -110,7 +106,7 @@ router.get('/:user/messages', async (ctx: Context) => {
     ctx.body = await database.databases.messages.find({ userID: member.user.id }).sort({ createdAt: -1 });
 });
 
-router.post('/:user/kick', async (ctx: Context) => {
+userRouter.post('/:user/kick', async (ctx: Context) => {
     const guild = await getGuild(ctx);
 
     if (!guild) {
@@ -132,7 +128,7 @@ router.post('/:user/kick', async (ctx: Context) => {
     ctx.status = 204;
 });
 
-router.post('/:user/ban', async (ctx: Context) => {
+userRouter.post('/:user/ban', async (ctx: Context) => {
     const guild = await getGuild(ctx);
 
     if (!guild) {
@@ -157,7 +153,7 @@ router.post('/:user/ban', async (ctx: Context) => {
     ctx.status = 204;
 });
 
-router.post('/:user/send', async (ctx: Context) => {
+userRouter.post('/:user/send', async (ctx: Context) => {
     const guild = await getGuild(ctx);
 
     if (!guild) {
@@ -181,4 +177,4 @@ router.post('/:user/send', async (ctx: Context) => {
     ctx.status = 201;
 });
 
-export default router;
+export default userRouter;

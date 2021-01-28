@@ -1,20 +1,17 @@
 import type { TextChannel } from 'discord.js';
-import * as Discord from 'discord.js';
 
 import type { Context, ServerState, ServerContext } from '..';
-import config from 'config';
 
-import * as database from '../../utils/db';
-import { getGuild, getMember, getChannel } from '../utils';
+import { getGuild, getChannel } from '../utils';
 
 import Router from '@koa/router';
-const router = new Router<ServerState, ServerContext>({ prefix: '/channel' });
+const channelRouter = new Router<ServerState, ServerContext>({ prefix: '/channel' });
 
-router.get('/', async (ctx, next) => {
+channelRouter.get('/', async (ctx, next) => {
     ctx.status = 200;
 });
 
-router.get('/:channel', async (ctx: Context) => {
+channelRouter.get('/:channel', async (ctx: Context) => {
     const guild = await getGuild(ctx);
 
     if (!guild) {
@@ -30,7 +27,7 @@ router.get('/:channel', async (ctx: Context) => {
     ctx.body = channel;
 });
 
-router.post('/:channel/send', async (ctx: Context) => {
+channelRouter.post('/:channel/send', async (ctx: Context) => {
     const guild = await getGuild(ctx);
 
     if (!guild) {
@@ -56,4 +53,4 @@ router.post('/:channel/send', async (ctx: Context) => {
     ctx.status = 201;
 });
 
-export default router;
+export default channelRouter;
