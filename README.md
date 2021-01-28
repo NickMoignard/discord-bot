@@ -2,6 +2,9 @@
 
 This is the code for our Discord bot which will run on our internal Discord server.
 
+## API
+checkout the Postman workspace for easy testing / development of the api
+https://app.getpostman.com/join-team?invite_code=8465252036eaa27887b225cf9e864798&ws=dd73095e-8f22-4ca3-ad5e-30d6c85f291f
 ## Development
 
 To get setup you will need to make sure you have the following installed on your machine:

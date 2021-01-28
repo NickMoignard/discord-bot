@@ -3,7 +3,10 @@ import config from 'config';
 import bodyParser from 'koa-bodyparser';
 import type { ParameterizedContext, DefaultState, DefaultContext } from 'koa';
 
-import { router } from './router';
+import rootRouter from './routes/root';
+import clientRouter from './routes/clients';
+import channelRouter from './routes/channels';
+import userRouter from './routes/users';
 
 import type Bot from '../Bot';
 
@@ -37,7 +40,11 @@ export const startServer = (bot: Bot) => {
     });
 
     app.use(bodyParser());
-    app.use(router.routes()).use(router.allowedMethods());
+    app.use(rootRouter.routes()).use(rootRouter.allowedMethods());
+    app.use(clientRouter.routes()).use(clientRouter.allowedMethods());
+    app.use(channelRouter.routes()).use(channelRouter.allowedMethods());
+    app.use(userRouter.routes()).use(userRouter.allowedMethods());
+
     app.listen(config.get<number>('server.port'));
 
     logger.info(`Server running on port ${config.get<number>('server.port')}`);
