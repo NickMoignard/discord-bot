@@ -28,7 +28,6 @@ class LogOnCommand extends BaseCommand {
      * The function that should be called when the event is fired.
      */
     async execute(message: Discord.Message) {
-        await message.delete();
         await database.updateSetting('logMessageDeletions', true);
 
         let user = 'Unknown';

@@ -318,6 +318,19 @@ abstract class BaseModule {
 
         return false;
     }
+
+    /**
+     * This will check the message to see if the author has one of the bypass roles.
+     */
+    hasDesignerRole(message: Discord.Message) {
+        const roles = config.get<string[]>('roles.creative');
+
+        if (roles?.length) {
+            return message.member?.roles.cache.some(({ id }) => roles.some((roleId) => roleId === id));
+        }
+
+        return false;
+    }
 }
 
 export default BaseModule;

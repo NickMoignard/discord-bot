@@ -1,23 +1,22 @@
 {
-  "name": "@atlauncher/discord-bot",
+  "name": "@NickMoignard/discord-bot",
   "version": "0.1.0",
-  "description": "This is the code for our Discord bot which runs on our official Discord server at https://atl.pw/discord",
+  "description": "This is the code for the Revolt internal Discord Bot",
   "main": "dist",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ATLauncher/Discord-Bot.git"
+    "url": "git+https://github.com/NickMoignard/Discord-Bot.git"
   },
   "keywords": [
     "discord",
-    "atlauncher",
     "bot"
   ],
-  "author": "Ryan Dowling <ryan.dowling@atlauncher.com>",
+  "author": "Nick Moignard <nicklmoignard@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ATLauncher/Discord-Bot/issues"
+    "url": "https://github.com/NickMoignard/Discord-Bot/issues"
   },
-  "homepage": "https://github.com/ATLauncher/Discord-Bot#readme",
+  "homepage": "https://github.com/NickMoignard/Discord-Bot#readme",
   "scripts": {
     "build": "tsc",
     "clean": "rimraf dist",
@@ -46,6 +45,7 @@
     "config": "^3.3.1",
     "date-fns": "^2.15.0",
     "discord.js": "^12.2.0",
+    "dotenv": "8.2.0",
     "got": "^11.5.1",
     "koa": "^2.13.0",
     "koa-bodyparser": "^4.3.0",
@@ -57,7 +57,6 @@
     "winston-logzio": "^5.1.2"
   },
   "devDependencies": {
-    "@commitlint/cli": "^9.1.1",
     "@commitlint/config-conventional": "^9.1.1",
     "@types/config": "0.0.36",
     "@types/koa": "^2.11.3",
@@ -68,7 +67,6 @@
     "@types/pluralize": "0.0.29",
     "@types/ws": "^7.2.6",
     "cross-env": "^7.0.2",
-    "husky": "^4.2.5",
     "lint-staged": "^10.2.11",
     "nodemon": "^2.0.4",
     "patch-package": "^6.2.2",

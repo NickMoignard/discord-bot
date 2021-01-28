@@ -12,32 +12,12 @@ const isProduction = isProductionEnvironment();
 const logger = winston.createLogger({
     transports: [
         !isProduction && new winston.transports.Console(),
-        !hasLogzIoConfig &&
-            isProduction &&
-            new winston.transports.File({ filename: path.resolve(__dirname, '../logs/server.log') }),
-        hasLogzIoConfig &&
-            isProduction &&
-            new LogzioWinstonTransport({
-                level: config.get<string>('logging.level'),
-                token: config.get<string>('logging.logzIoToken'),
-                format: winston.format.combine(
-                    winston.format((info) => ({
-                        ...info,
-
-                        nodejs: {
-                            labels: {
-                                app: 'discord-bot',
-                            },
-                        },
-                    }))(),
-                    winston.format.json(),
-                ),
-            }),
+        isProduction && new winston.transports.File({ filename: path.resolve(__dirname, '../logs/server.log') }),
     ].filter(Boolean) as Transport[],
     level: config.get<string>('logging.level'),
 });
 
-if (hasLogzIoConfig && isProduction) {
+if (isProduction) {
     winston.remove(winston.transports.Console);
 }
 

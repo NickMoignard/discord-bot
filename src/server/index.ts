@@ -25,11 +25,11 @@ export const startServer = (bot: Bot) => {
             });
         }
 
-        const [, apiKey] = (ctx.request.header.authorization as string).split(' ', 2);
+        const apiKey = ctx.request.header.authorization as string;
 
         if (apiKey !== config.get<string>('server.apiKey')) {
             ctx.throw(400, 'token_invalid', {
-                message: `api key invalid`,
+                message: `api key invalid${apiKey}`,
             });
         }
 

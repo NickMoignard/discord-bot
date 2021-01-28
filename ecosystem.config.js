@@ -21,7 +21,7 @@ module.exports = {
             user: 'node',
             host: process.env.BOX_IP,
             ref: 'origin/master',
-            repo: 'git@github.com:ATLauncher/discord-bot.git',
+            repo: 'git@github.com:NickMoignard/discord-bot.git',
             path: '/home/node/discord-bot',
             'post-deploy':
                 'rm -rf dist; npm install; npm run build; pm2 startOrRestart ecosystem.config.js --env production',

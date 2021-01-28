@@ -7,24 +7,40 @@
     "level": "info"
   },
   "discord": {
-    "clientId": "",
-    "clientToken": ""
+    "clientId": "client-id",
+    "clientToken": "client-token"
   },
   "channels": {
-    "rules": "123456789012345678",
-    "moderationLogs": "123456789012345678",
-    "botTesting": "123456789012345678"
+    "rules": "channel-id",
+    "moderationLogs": "channel-id",
+    "botTesting": "channel-id",
+    "moderatorsDen":"channel-id",
+    "announcements":"channel-id"
   },
   "noSupportChannels": [
-    "123456789012345678"
+    "channel-id",
+    "channel-id",
+    "channel-id"
   ],
   "moderatedChannels": [
-    "123456789012345678"
+    "channel-id",
+    "channel-id"
   ],
   "bypass": {
     "roles": [
-      "123456789012345678"
+      "role-id"
     ]
   },
-  "badWords": []
+  "badWords": ["nigger"],
+  "roles" : {
+    "admin":"role-id",
+    "@everyone": "role-id",
+    "client": "role-id",
+    "team": "role-id",
+    "Template Bot": "role-id",
+    "jailed": "role-id"
+  },
+  "reactionEmoji": {
+    "logzPlz": "emoji-id"
+  }
 }
