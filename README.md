@@ -28,9 +28,6 @@ Once built simply run `npm run start` which will run the `index.js` file in the 
 
 This repository contains support for Docker. Simply run `docker build` to build a Docker image ready to use.
 
-Alternatively we have an automated build running on our Docker Hub repo at
-<https://hub.docker.com/r/atlauncher/discord-bot/> accessed with identifier `atlauncher/discord-bot`.
-
 ## Deployment
 Manual deployment using Docker.
 

@@ -1,8 +1,3 @@
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FATLauncher%2Fdiscord-bot.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FATLauncher%2Fdiscord-bot?ref=badge_shield)
-[![Discord](https://discordapp.com/api/guilds/117047818136322057/embed.png?style=shield)](https://atl.pw/discordfromgithub)
-![Build and Deploy](https://github.com/ATLauncher/discord-bot/workflows/Build%20and%20Deploy/badge.svg?branch=master)
-![Test and Build](https://github.com/ATLauncher/discord-bot/workflows/Test%20and%20Build/badge.svg?branch=master)
-
 
 ## OLD DEPLOYMENT
 - [Terraform](https://www.terraform.io) to create and maintain the droplets in Digital Ocean
@@ -39,4 +34,3 @@ Once done, you'll also need to copy over a `production.json` file with your conf
 And then to deploy new changes to the code, run `pm2 deploy production`. Note that you will need to change the
 `ecosystem.config.js` file in order to point to the correct repository, if it's not this one.
 
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FATLauncher%2Fdiscord-bot.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FATLauncher%2Fdiscord-bot?ref=badge_large)
